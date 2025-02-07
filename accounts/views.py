@@ -1,16 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 
-from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from django.views.generic import TemplateView, CreateView
 from accounts.models import User
 from accounts.forms import SignupForm
-
-
-def index(request):
-    return render(request, "accounts/index.html")
 
 
 signup = CreateView.as_view(

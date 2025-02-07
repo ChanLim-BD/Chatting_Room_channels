@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     # local apps
     'accounts',
+    'chat',
 ]
 
 if DEBUG:
