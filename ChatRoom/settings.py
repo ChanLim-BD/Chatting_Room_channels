@@ -103,6 +103,16 @@ DATABASES = {
 }
 
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(env.str('redis_host'), env('redis_port'))],
+        },
+    },
+}
+
+
 # Custom User Model
 AUTH_USER_MODEL = "accounts.User"
 
