@@ -81,11 +81,13 @@ class ChatConsumer(JsonWebsocketConsumer):
         else:
             print(f"Invalid message type : ${_type}")
 
+
     def chat_user_join(self, message_dict):
         self.send_json({
             "type": "chat.user.join",
             "username": message_dict["username"],
         })
+
 
     def chat_user_leave(self, message_dict):
         self.send_json({
@@ -93,12 +95,14 @@ class ChatConsumer(JsonWebsocketConsumer):
             "username": message_dict["username"],
         })
 
+
     def chat_message(self, message_dict):
         self.send_json({
             "type": "chat.message",
             "message": message_dict["message"],
             "sender": message_dict["sender"],
         })
+        
 
     def chat_room_deleted(self, message_dict):
         custom_code = 4000
