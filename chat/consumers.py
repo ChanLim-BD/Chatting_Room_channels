@@ -3,6 +3,10 @@ from channels.generic.websocket import JsonWebsocketConsumer
 
 from chat.models import Room
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class ChatConsumer(JsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
@@ -49,17 +53,20 @@ class ChatConsumer(JsonWebsocketConsumer):
                 self.channel_name,
             )
 
+        logger.debug(f"User {self.scope['user'].username} disconnected : {code}")
+
         user = self.scope["user"]
 
         if self.room is not None:
             is_last_leave = self.room.user_leave(self.channel_name, user)
+            logger.debug(f"User {user.username} is_last_leave : {is_last_leave}")
             if is_last_leave:
                 async_to_sync(self.channel_layer.group_send)(
                     self.group_name,
                     {
                         "type": "chat.user.leave",
                         "username": user.username,
-                    }
+                    },
                 )
 
     def receive_json(self, content, **kwargs):
@@ -90,10 +97,13 @@ class ChatConsumer(JsonWebsocketConsumer):
 
 
     def chat_user_leave(self, message_dict):
-        self.send_json({
-            "type": "chat.user.leave",
-            "username": message_dict["username"],
-        })
+        logger.debug(f"User {message_dict['username']} left the room")
+        self.send_json(
+            {
+                "type": "chat.user.leave",
+                "username": message_dict["username"],
+            }
+        )
 
 
     def chat_message(self, message_dict):
