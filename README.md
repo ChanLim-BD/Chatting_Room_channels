@@ -42,7 +42,13 @@ Clone the repository and set up locally:
    python manage.py migrate
    ```
 
-4. **Run the Server**
+4. **Set up and run Redis Server**
+
+   ```bash
+   docker run --name redis-container -p 6379:6379 -d redis
+   ```
+
+5. **Run the Server**
 
    ```bash
    python manage.py runserver            # 개발 서버
